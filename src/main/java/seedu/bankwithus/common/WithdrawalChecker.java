@@ -1,5 +1,6 @@
 package seedu.bankwithus.common;
 
+import java.math.BigDecimal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.text.DecimalFormat;
@@ -12,26 +13,26 @@ public class WithdrawalChecker {
     private Logger logger = Logger.getLogger("Foo");
 
     /**
-     * Instantiates withdrawalChecker without any amount withdrawn
+     * Instantiates withdrawalChecker without any amount withdrawn.
      */
     public WithdrawalChecker() {
-        logger.log(Level.INFO, "Default WithdrawalChecker contructor called");
+        logger.log(Level.FINE, "Default WithdrawalChecker contructor called");
         this.totalAmtWithdrawn = "0";
-        logger.log(Level.INFO, "totalAmtWithdrawn set to " + totalAmtWithdrawn);
+        logger.log(Level.FINE, "totalAmtWithdrawn set to " + totalAmtWithdrawn);
     }
 
     /**
      * Instantiates withdrawalChecker with amount withdrawn and 
-     * last known withdrawal date
+     * last known withdrawal date.
      * @param totalAmtWithdrawn amount withdrawn
      * @param lastWithdrawnDate last known withdrawal date
      */
     public WithdrawalChecker(String totalAmtWithdrawn, LocalDate lastWithdrawnDate) {
-        logger.log(Level.INFO, "WithdrawalChecker contructer with set withdrawals called");
+        logger.log(Level.FINE, "WithdrawalChecker contructer with set withdrawals called");
         this.totalAmtWithdrawn = totalAmtWithdrawn;
         this.lastWithdrawnDate = lastWithdrawnDate;
-        logger.log(Level.INFO, "totalAntWithdrawn set to " + totalAmtWithdrawn);
-        logger.log(Level.INFO, "lastWithdrawnDate set to " + lastWithdrawnDate.toString());
+        logger.log(Level.FINE, "totalAntWithdrawn set to " + totalAmtWithdrawn);
+        logger.log(Level.FINE, "lastWithdrawnDate set to " + lastWithdrawnDate.toString());
     }
 
     public String getTotalAmtWithdrawn() {
@@ -46,13 +47,13 @@ public class WithdrawalChecker {
      * 
      * @param withdrawal the amount that was just withdrawn
      */
-    public void updateTotalAmtWithdrawn(float withdrawal) {
-        logger.log(Level.INFO, "updateTotalAmtWithdrawn in WithdrawalChecker called");
+    public void updateTotalAmtWithdrawn(BigDecimal withdrawal) {
+        logger.log(Level.FINE, "updateTotalAmtWithdrawn in WithdrawalChecker called");
         LocalDate currentDate = LocalDate.now();
         DecimalFormat df = new DecimalFormat("#.##");
-        logger.log(Level.INFO, "Checking if account has withdrawal history");
+        logger.log(Level.FINE, "Checking if account has withdrawal history");
         if (lastWithdrawnDate == null) {
-            logger.log(Level.INFO, "No withdrawal history found, setting values now");
+            logger.log(Level.FINE, "No withdrawal history found, setting values now");
             lastWithdrawnDate = currentDate;
             String formatted = df.format(withdrawal);
             totalAmtWithdrawn = String.valueOf(formatted);
@@ -61,11 +62,11 @@ public class WithdrawalChecker {
         assert totalAmtWithdrawn != null;
         if (lastWithdrawnDate.getMonth() == currentDate.getMonth() && 
                 lastWithdrawnDate.getYear() == currentDate.getYear()) {
-            logger.log(Level.INFO, "Previous withdrawal in the same month, adding to total");
-            String formatted = df.format(Float.parseFloat(totalAmtWithdrawn) + withdrawal);
+            logger.log(Level.FINE, "Previous withdrawal in the same month, adding to total");
+            String formatted = df.format(new BigDecimal(totalAmtWithdrawn).add(withdrawal));
             totalAmtWithdrawn = String.valueOf(formatted);
         } else {
-            logger.log(Level.INFO, "Previous withdrawal in previous months, setting to new value");
+            logger.log(Level.FINE, "Previous withdrawal in previous months, setting to new value");
             String formatted = df.format(withdrawal);
             totalAmtWithdrawn = String.valueOf(formatted);
         }
@@ -76,25 +77,25 @@ public class WithdrawalChecker {
         return this.withdrawalLimit;
     }
 
-    public void setWithdrawalLimit(float withdrawalLimit) {
+    public void setWithdrawalLimit(BigDecimal withdrawalLimit) {
         DecimalFormat df = new DecimalFormat("#.##");
         String formatted = df.format(withdrawalLimit);
         this.withdrawalLimit = String.valueOf(formatted);
     }
 
     /**
-     * Checks if the amount withdrawn will exceed the withdrawal limit
+     * Checks if the amount withdrawn will exceed the withdrawal limit.
      * 
      * @param withdrawAmount the amount withdrawn
      * @return true if will exceed, false otherwise
      */
-    public boolean willExceedWithdrawalLimit(float withdrawAmount) {
+    public boolean willExceedWithdrawalLimit(BigDecimal withdrawAmount) {
         if (totalAmtWithdrawn.isBlank() || withdrawalLimit == null) {
             return false;
         }
-        float totalAmtWithdrawnFloat = Float.parseFloat(totalAmtWithdrawn);
-        float withdrawalLimitFloat = Float.parseFloat(withdrawalLimit);
-        return ((totalAmtWithdrawnFloat + withdrawAmount) > withdrawalLimitFloat);
+        BigDecimal totalAmtWithdrawnBigDecimal = new BigDecimal(totalAmtWithdrawn);
+        BigDecimal withdrawalLimitBigDecimal = new BigDecimal(withdrawalLimit);
+        return ((totalAmtWithdrawnBigDecimal.add(withdrawAmount)).compareTo(withdrawalLimitBigDecimal) == 1 );
     }
 
     @Override

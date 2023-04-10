@@ -20,6 +20,7 @@ public class Transaction {
 
     @Override
     public String toString() {
+        assert date != null;
         return "Account Name: " + accountName
                 + " Transaction Type: " + type
                 + " Amount: " + amount
@@ -33,14 +34,15 @@ public class Transaction {
         return amount;
     }
 
-    public LocalDate getDate() {
-        return date;
-    }
     public String getDateStr() {
         return date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     public String getType() {
         return type;
+    }
+
+    public LocalDate getDate() {
+        return date;
     }
 }

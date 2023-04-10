@@ -2,7 +2,6 @@ package seedu.bankwithus.storage;
 
 import seedu.bankwithus.user.AccountList;
 import seedu.bankwithus.user.TransactionList;
-import seedu.bankwithus.ui.Ui;
 import seedu.bankwithus.exceptions.AccountNotFoundException;
 
 import java.io.File;
@@ -17,8 +16,6 @@ public class Storage {
     protected File transactionFile;
     private final File saveDir = new File("data");
 
-    private Ui ui;
-
 
     /**
      * Creates a new instance of Storage. Initialises the saveFile.
@@ -29,7 +26,6 @@ public class Storage {
     public Storage(String accountsFilepath, String transactionsFilepath) {
         this.accountFile = new File(accountsFilepath);
         this.transactionFile = new File(transactionsFilepath);
-        this.ui = new Ui();
     }
 
     /**
@@ -49,14 +45,13 @@ public class Storage {
 
     //@@author
     /**
-     * Creates a new saveFile if file is not found. Also creates the data directory
+     * Creates a new saveFile if file is not found. Also creates the data directory.
      *
      * @throws IOException if something goes really wrong. Should almost never happen
      */
     public void createNewAccountsFile() throws IOException {
         saveDir.mkdir();
         accountFile.createNewFile();
-        ui.showFileCreated();
     }
 
 
@@ -71,7 +66,7 @@ public class Storage {
 
     //@@author Sherlock-YH
     /**
-     * This method saves all account details to data/save.txt
+     * This method saves all account details to data/save.txt.
      *
      * @param list The AccountList that stores all accounts
      */
@@ -87,7 +82,7 @@ public class Storage {
 
     //@@author xiaoge26
     /**
-     * This method saves all transaction details to data/save.txt
+     * This method saves all transaction details to data/save.txt.
      *
      * @param transactionList The TransactionList that stores all transactions
      */
