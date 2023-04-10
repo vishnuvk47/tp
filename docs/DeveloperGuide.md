@@ -81,7 +81,7 @@ For a quick link to a summary refer to: [Summary of overall architecture](#summa
 
 The sequence diagram below shows how components interact with each other when the user issues the command `deposit 100`.
 
-<img src="images/deposit100SeqDiagram.png" width="700" />
+<img src="images/deposit100SeqDiagram.png" width="900" />
 
 Note: The lifeline of the Transaction class does not end after the cross due to a limitation with PlantUML. 
 
@@ -95,10 +95,14 @@ Class: `Ui.java`
 ### Parser-Component
 Class: `Parser.java`
 
+<img src="images/UML_CLASS_DIAGS/PARSER_CLASS.png" width="700" />
+
 * Determines what the program would do with the input retrieved from the CLI
 
 ### Account-Component
 Class: `Account.java`
+
+<img src="images/UML_CLASS_DIAGS/ACCOUNT_CLASS.png" width="700" />
 
 The `Account` component:
 
@@ -118,6 +122,8 @@ different accounts that the user has
 
 ### BankWithUs-Component
 Class: `BankWithUs.java`
+
+<img src="images/UML_CLASS_DIAGS/BWU_CLASS.png" width="700" />
 
 The `BankWithUs` component:
 
@@ -218,6 +224,22 @@ Note: Withdrawal will be cancelled if it fails to meet withdrawal limit or if us
 **Step 6**:
 
 *  New balance is displayed to the user via the `showBal()` method from AccountList class that makes use of the UI class' method to print to screen
+
+**Sequence Diagram**
+
+General sequence diagram
+
+<img src="images/WithdrawFunction.png" width="700" />
+
+*Note: Many details especially from the SaveGoal and WithdrawalChecker classes have been omitted for brevity.*
+
+Exceed withdrawal limit case
+
+<img src="images/ExceedWLCase.png" width="700" />
+
+Fail save goal case
+
+<img src="images/FailSaveGoalCase.png" width="800" />
 
 ## Command: `add-account`:
 
@@ -406,7 +428,7 @@ Windows: Command Prompt <br />
 ## Instructions for manual testing
 ### Launch
 1. Ensure you have Java 11 installed in your Computer
-2. Download the latest release `BankWithUs.jar` from here
+2. Download the latest release `BankWithUs.jar` from [here](https://github.com/AY2223S2-CS2113-T13-3/tp/releases)
 3. Copy the file to the folder you want to use as the home folder for BankWithUs
 4. Open a command terminal, cd into the folder you put the `BankWithUs.jar` file in, and use `java -jar BankWithUs.jar` 
 command to run the application. A CLI should appear in a few seconds
